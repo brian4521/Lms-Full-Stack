@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import user_icon from "../../assets/user_icon.svg";
+import lms_logo from "../../assets/lms_logo.svg";
+import microsoft_logo from "../../assets/microsoft_logo.svg";
 import { UserButton, useClerk, useUser } from "@clerk/react";
 
 const Navbar = () => {
@@ -13,10 +15,17 @@ const Navbar = () => {
   return (
     <div
       className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${
-        isCourseListPage ? "bg-white" : "bg-cyan-50"
+        isCourseListPage ? "bg-white" : "bg-yellow-50"
       }`}
     >
-      <img src="" alt="Logo" className="w-28 lg:w-32 cursor-pointer" />
+      <div className="flex items-center ">
+        <img
+          src={lms_logo}
+          alt="Logo"
+          className="h-10 md:h-12 w-auto object-contain cursor-pointer"
+        />
+        <h1 className="font-bold text-xl">SkillBridge</h1>
+      </div>
 
       {/* desktop */}
       <div className="hidden md:flex items-center gap-5 text-gray-500">
@@ -50,10 +59,13 @@ const Navbar = () => {
             </>
           )}
         </div>
-
-        <button>
-          <img src={user_icon} alt="profile" />
-        </button>
+        {user ? (
+          UserButton
+        ) : (
+          <button onClick={() => openSignIn()}>
+            <img src={user_icon} alt="profile" />
+          </button>
+        )}
       </div>
     </div>
   );
