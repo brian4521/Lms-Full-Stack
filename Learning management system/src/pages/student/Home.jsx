@@ -4,6 +4,7 @@ import Company from "../../components/student/Company";
 import CourseList from "../../components/student/CourseList";
 import Testimonials from "../../components/student/Testimonials";
 import CallToAction from "../../components/student/CallToAction";
+import Footer from "../../components/student/Footer";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <CourseList />
       <Testimonials />
       <CallToAction />
+      <Footer />
     </div>
   );
 };
