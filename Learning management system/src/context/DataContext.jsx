@@ -8,6 +8,7 @@ export const DataContextProvider = (props) => {
 
   const [allcourseslist, setallcourseslist] = useState([]);
   const [isEducator, setisEducator] = useState(true);
+
   console.log("this is course list", allcourseslist);
 
   const fetchcourse = async () => {

@@ -103,25 +103,25 @@ export const dummyEducatorData = {
 
 export const dummyTestimonial = [
     {
-        name: 'Donald Jackman',
-        role: 'SWE 1 @ Amazon',
+        name: 'Michael Johnson',
+        role: 'Male Frontend Developer',
         image: assets.profile_img_1,
         rating: 5,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        feedback: 'This platform helped me stay consistent with my learning. The courses are clear practical and easy to follow which made a big difference in my growth.',
     },
     {
-        name: 'Richard Nelson',
-        role: 'SWE 2 @ Samsung',
+        name: 'Emma Thompson',
+        role: 'Female UI UX Designer',
         image: assets.profile_img_2,
-        rating: 4,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        rating: 4.5,
+        feedback: 'I was able to improve my design skills step by step. The structured lessons and simple approach made learning enjoyable and effective.',
     },
     {
-        name: 'James Washington',
-        role: 'SWE 2 @ Google',
+        name: 'James Anderson',
+        role: 'Male Backend Developer',
         image: assets.profile_img_3,
-        rating: 4.5,
-        feedback: 'I\'ve been using Imagify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.',
+        rating: 4,
+        feedback: 'The learning experience is smooth and focused. I gained real skills that I could apply immediately in my projects.',
     },
 ];
 
