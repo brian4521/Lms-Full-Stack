@@ -1,9 +1,10 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import user_icon from "../../assets/user_icon.svg";
 import lms_logo from "../../assets/lms_logo.svg";
 import microsoft_logo from "../../assets/microsoft_logo.svg";
 import { UserButton, useClerk, useUser } from "@clerk/react";
+import { DataContext } from "../../context/DataContext";
 
 const Navbar = () => {
   const location = useLocation();
@@ -11,6 +12,9 @@ const Navbar = () => {
 
   const { openSignIn } = useClerk();
   const { user } = useUser();
+
+  const { isEducator, setisEducator } = useContext(DataContext);
+  const navigate = useNavigate();
 
   return (
     <div
@@ -34,7 +38,9 @@ const Navbar = () => {
         <div className="flex items-center gap-5">
           {user && (
             <>
-              <button>Become Tutor</button>
+              <button onClick={() => navigate("/educator")}>
+                {isEducator ? "Educator Dashboard" : "Become Educator"}
+              </button>
               <Link to={"/my-enrollment"}>My Enrollments</Link>
             </>
           )}
