@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { dummyCourses } from "../assets/assets";
+import humanizeDuration from "humanize-duration";
 
 export const DataContext = createContext();
 
@@ -15,6 +16,7 @@ export const DataContextProvider = (props) => {
     setallcourseslist(dummyCourses);
   };
 
+  //calculate average ratings of course
   const calculateRating = (course) => {
     if (course.courseRatings.length === 0) {
       return 0;
@@ -24,6 +26,37 @@ export const DataContextProvider = (props) => {
       totalRating += rating.rating;
     });
     return totalRating / course.courseRatings.length;
+  };
+
+  // calculate  course chapter timing
+
+  const calculateChapterTime = (chapter) => {
+    let time = 0;
+    chapter.chapterContent.map((lecture) => (time += lecture.lectureDuration));
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
+  };
+
+  // calculate course time
+  const calculateCourseTime = (course) => {
+    let time = 0;
+    course.courseContent.map((chapter) =>
+      chapter.chapterContent.map(
+        (lecture) => (time += lecture.lectureDuration),
+      ),
+    );
+    return humanizeDuration(time * 60 * 1000, { units: ["h", "m"] });
+  };
+
+  //calculate no. of lectures in the course
+
+  const calculateNoofLecture = (course) => {
+    let totalLectures = 0;
+    course.courseContent.forEach((chapter) => {
+      if (Array.isArray(chapter.chapterContent)) {
+        totalLectures += chapter.chapterContent.length;
+      }
+    });
+    return totalLectures;
   };
 
   useEffect(() => {
@@ -36,6 +69,9 @@ export const DataContextProvider = (props) => {
     calculateRating,
     isEducator,
     setisEducator,
+    calculateChapterTime,
+    calculateCourseTime,
+    calculateNoofLecture,
   };
   return (
     <DataContext.Provider value={value}>{props.children}</DataContext.Provider>

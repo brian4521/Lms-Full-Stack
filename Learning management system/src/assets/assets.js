@@ -502,7 +502,7 @@ export const dummyCourses = [
                 "chapterOrder": 1,
                 "chapterTitle": "Cloud Fundamentals",
                 "chapterContent": [
-                    {
+                    {       
                         "lectureId": "lecture1",
                         "lectureTitle": "What is Cloud Computing?",
                         "lectureDuration": 600,
