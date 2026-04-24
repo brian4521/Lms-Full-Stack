@@ -9,6 +9,7 @@ export const DataContextProvider = (props) => {
 
   const [allcourseslist, setallcourseslist] = useState([]);
   const [isEducator, setisEducator] = useState(true);
+  const [enrolledCourses, setenrolledCourses] = useState([]);
 
   console.log("this is course list", allcourseslist);
 
@@ -59,8 +60,15 @@ export const DataContextProvider = (props) => {
     return totalLectures;
   };
 
+  //get student enrolled courses
+
+  const getUserEnrolledCourses = async () => {
+    setenrolledCourses(dummyCourses);
+  };
+
   useEffect(() => {
     fetchcourse();
+    getUserEnrolledCourses();
   }, []);
 
   const value = {
@@ -72,6 +80,7 @@ export const DataContextProvider = (props) => {
     calculateChapterTime,
     calculateCourseTime,
     calculateNoofLecture,
+    enrolledCourses,
   };
   return (
     <DataContext.Provider value={value}>{props.children}</DataContext.Provider>
