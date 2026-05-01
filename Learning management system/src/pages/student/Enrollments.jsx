@@ -1,9 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { DataContext } from "../../context/DataContext";
 import { assets } from "../../assets/assets";
+import { useNavigate } from "react-router-dom";
+import { Line } from "rc-progress";
+import Footer from "../../components/student/Footer";
 
 const Enrollments = () => {
   const { enrolledCourses, calculateCourseTime } = useContext(DataContext);
+  const navigate = useNavigate();
+
+  const [progresscourse, setprogresscourse] = useState([
+    { lectureCompleted: 2, totalLedctures: 4 },
+    { lectureCompleted: 5, totalLedctures: 5 },
+    { lectureCompleted: 3, totalLedctures: 6 },
+    { lectureCompleted: 4, totalLedctures: 4 },
+    { lectureCompleted: 0, totalLedctures: 3 },
+    { lectureCompleted: 2, totalLedctures: 7 },
+    { lectureCompleted: 2, totalLedctures: 8 },
+    { lectureCompleted: 2, totalLedctures: 6 },
+    { lectureCompleted: 7, totalLedctures: 10 },
+    { lectureCompleted: 5, totalLedctures: 5 },
+    { lectureCompleted: 2, totalLedctures: 7 },
+    { lectureCompleted: 2, totalLedctures: 4 },
+    { lectureCompleted: 0, totalLedctures: 2 },
+    { lectureCompleted: 2, totalLedctures: 5 },
+  ]);
+
   return (
     <>
       <div className="md:px-36 px-8 pt-10">
@@ -34,17 +56,37 @@ const Enrollments = () => {
                       <p className="mb-1 max-sm:text-sm">
                         {course.courseTitle}
                       </p>
+                      <Line
+                        strokeWidth={2}
+                        percent={
+                          progresscourse[index]
+                            ? (progresscourse[index].lectureCompleted * 100) /
+                              progresscourse[index].totalLedctures
+                            : 0
+                        }
+                        className="bg-gray-300 rounded-full"
+                      />
                     </div>
                   </td>
                   <td className="px-4 py-3 max-sm:hidden">
                     {calculateCourseTime(course)}
                   </td>
                   <td className="px-4 py-3 max-sm:hidden">
-                    4 / 10 <span>Lectures</span>
+                    {progresscourse[index] &&
+                      `${progresscourse[index].lectureCompleted} / ${progresscourse[index].totalLedctures}`}
+                    <span>Lectures</span>
                   </td>
                   <td className="px-4 py-3 max-sm:text-right">
-                    <button className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">
-                      On going
+                    <button
+                      className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5"
+                      onClick={() => navigate("/player/" + course._id)}
+                    >
+                      {progresscourse[index] &&
+                      progresscourse[index].lectureCompleted /
+                        progresscourse[index].totalLedctures ===
+                        1
+                        ? "Completed"
+                        : "On going"}
                     </button>
                   </td>
                 </tr>
@@ -53,6 +95,7 @@ const Enrollments = () => {
           </tbody>
         </table>
       </div>
+      <Footer />
     </>
   );
 };
