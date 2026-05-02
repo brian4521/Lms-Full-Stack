@@ -1,12 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "../../context/DataContext";
 import { useParams } from "react-router-dom";
+import down_arrow_icon from "../../assets/down_arrow_icon.svg";
+import { assets } from "../../assets/assets";
+import humanizeDuration from "humanize-duration";
+import YouTube from "react-youtube";
 
 const Player = () => {
   const { enrolledCourses, calculateChapterTime } = useContext(DataContext);
 
   const { courseId } = useParams();
-  const [filteredCourseDetails, setfilteredCourseDetails] = useState(second);
+  const [filteredCourseDetails, setfilteredCourseDetails] = useState(null);
+  const [onoffsection, setonoffsection] = useState({});
+
+  const [playerData, setplayerData] = useState(null);
 
   const getCourseData = () => {
     enrolledCourses.map((course) => {
@@ -15,6 +22,15 @@ const Player = () => {
       }
     });
   };
+
+  const toggleSection = (index) => {
+    setonoffsection((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
+  useEffect(() => {
+    getCourseData();
+  }, [enrolledCourses]);
+
   return (
     <>
       <div className="p-4 sm:p-10 flex flex-col-reverse md:grid md:grid-cols-2 gap-10 md:px-36">
@@ -54,25 +70,27 @@ const Player = () => {
                       {chapter.chapterContent.map((lecture, idx) => (
                         <li key={index} className="flex items-start gap-2 py-1">
                           <img
-                            src={play_icon}
+                            src={
+                              false ? assets.blue_tick_icon : assets.play_icon
+                            }
                             alt="play_icon"
                             className="w-4 h-4 mt-1"
                           />
                           <div className="flex items-center justify-between w-full text-gray-800 text-xs md:text-default">
                             <p>{lecture.lectureTitle}</p>
                             <div className="flex gap-2 ">
-                              {lecture.isPreviewFree && (
+                              {lecture.lectureUrl && (
                                 <p
                                   className="text-blue-500 cursor-pointer"
                                   onClick={() =>
                                     setplayerData({
-                                      videoId: lecture.lectureUrl
-                                        .split("/")
-                                        .pop(),
+                                      ...lecture,
+                                      chapter: index + 1,
+                                      lecture: i + 1,
                                     })
                                   }
                                 >
-                                  Preview
+                                  Watch
                                 </p>
                               )}
                               <p>
@@ -93,7 +111,33 @@ const Player = () => {
         </div>
 
         {/* right column */}
-        <div></div>
+        <div>
+          {playerData ? (
+            <div>
+              <YouTube
+                videoId={playerData.lectureUrl.split("/").pop()}
+                opts={{ playerVars: { autoplay: 1 } }}
+                iframeClassName="w-full aspect-video"
+              />
+              <div>
+                <p>
+                  {playerData.chapter}.{playerData.lecture}{" "}
+                  {playerData.lectureTitle}
+                </p>
+                <button>Mark Complete</button>
+              </div>
+            </div>
+          ) : (
+            <img
+              src={
+                filteredCourseDetails
+                  ? filteredCourseDetails.courseThumbnail
+                  : ""
+              }
+              alt=""
+            />
+          )}
+        </div>
       </div>
     </>
   );
